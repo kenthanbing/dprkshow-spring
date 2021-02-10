@@ -1,0 +1,15 @@
+server:
+  port: 8881
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/dprkcopy?useUnicode=true&characterEncoding=utf8
+    username: root
+    password: d
+
+# pagehelper
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
