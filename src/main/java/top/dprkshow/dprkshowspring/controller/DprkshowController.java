@@ -1,15 +1,15 @@
 package top.dprkshow.dprkshowspring.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import sun.management.snmp.jvminstr.JvmOSImpl;
 import top.dprkshow.dprkshowspring.dao.DprkshowMapper;
 
 import top.dprkshow.dprkshowspring.entity.*;
 import top.dprkshow.dprkshowspring.service.BuyerService;
+import top.dprkshow.dprkshowspring.service.ExhibitorService;
 import top.dprkshow.dprkshowspring.service.PageService;
 
 import java.util.List;
@@ -25,6 +25,9 @@ public class DprkshowController {
 
     @Autowired
     BuyerService buyerService;
+
+    @Autowired
+    ExhibitorService exhibitorService;
 
     @GetMapping("/articleslast3")
     public List<Article> selectArticleLast3() {
@@ -59,5 +62,25 @@ public class DprkshowController {
     @PostMapping("/exregister")
     public void addExhibitor(@RequestBody Exhibitor exhibitor) {
         dprkshowMapper.addExhibitor(exhibitor);
+    }
+
+    @PostMapping("/login")
+    public JSONObject exhibitorLogin(@RequestBody LoginInfo loginInfo) {
+        return exhibitorService.login(loginInfo);
+    }
+
+    @GetMapping("/info")
+    public Exhibitor exhibitorInfo(String eid) {
+        return dprkshowMapper.getExhibitor(Integer.parseInt(eid));
+    }
+
+    @PutMapping("/info")
+    public void updateExhibitor(@RequestBody ExhibitorInfo exhibitorInfo) {
+        dprkshowMapper.updateExhibitor(exhibitorInfo);
+    }
+
+    @PostMapping("/pwd")
+    public JSONObject updatePwd(@RequestBody ExhibitorPwd exhibitorPwd) {
+        return exhibitorService.updatePwd(exhibitorPwd);
     }
 }
