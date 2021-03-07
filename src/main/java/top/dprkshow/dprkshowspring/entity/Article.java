@@ -6,7 +6,7 @@ public class Article {
     private Integer aid;
     private String snap;
     private String title;
-    private String desc;
+    private String description;
     private String abanner;
     private String content;
 
@@ -35,11 +35,11 @@ public class Article {
     }
 
     public String getDesc() {
-        return desc;
+        return description;
     }
 
     public void setDesc(String desc) {
-        this.desc = desc;
+        this.description = desc;
     }
 
     public String getAbanner() {
