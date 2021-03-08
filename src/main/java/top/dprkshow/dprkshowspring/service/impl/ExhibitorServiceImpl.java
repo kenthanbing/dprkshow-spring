@@ -21,12 +21,12 @@ public class ExhibitorServiceImpl implements ExhibitorService {
     @Override
     public JSONObject login(LoginInfo loginInfo) {
         JSONObject result = new JSONObject();
-        JSONObject exhibitor = dprkshowMapper.getPassword(loginInfo);
-        if (exhibitor != null && loginInfo.getPassword().equals(exhibitor.get("password"))) {
+        JSONObject profile = dprkshowMapper.getProfile(loginInfo);
+        if (profile != null && SecureUtil.md5(loginInfo.getPassword()).equals(profile.get("password"))) {
             String token = UUID.randomUUID().toString();
             result.put("data", "Login success!");
-            result.put("eid", exhibitor.get("eid"));
-            result.put("username", exhibitor.get("username"));
+            result.put("eid", profile.get("eid"));
+            result.put("username", profile.get("username"));
             result.put("token", token);
             return result;
         }
@@ -38,6 +38,8 @@ public class ExhibitorServiceImpl implements ExhibitorService {
     public JSONObject updatePwd(ExhibitorPwd exhibitorPwd) {
         JSONObject result = new JSONObject();
         String oldPwd = dprkshowMapper.getPasswordByEid(exhibitorPwd.getEid());
+        exhibitorPwd.setPwd(SecureUtil.md5(exhibitorPwd.getPwd()));
+        exhibitorPwd.setNew_pwd(SecureUtil.md5(exhibitorPwd.getNew_pwd()));
         if (exhibitorPwd.getPwd().equals(oldPwd)) {
             dprkshowMapper.updatePwd(exhibitorPwd);
             result.put("data", "Update success!");

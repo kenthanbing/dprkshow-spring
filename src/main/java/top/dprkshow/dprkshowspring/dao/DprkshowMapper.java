@@ -35,7 +35,7 @@ public interface DprkshowMapper {
     void addExhibitor(Exhibitor exhibitor);
 
     @Select("select eid, username, password from exhibitors where username=#{username}")
-    JSONObject getPassword(LoginInfo loginInfo);
+    JSONObject getProfile(LoginInfo loginInfo);
 
     @Select("select * from exhibitors where eid=#{eid}")
     Exhibitor getExhibitor(Integer eid);

@@ -60,7 +60,6 @@ public class DprkshowController {
     }
 
     @PostMapping("/exregister")
-    // todo 重写密码加密，用service
     public void addExhibitor(@RequestBody Exhibitor exhibitor) {
         exhibitorService.register(exhibitor);
     }
