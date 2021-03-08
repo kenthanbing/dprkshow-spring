@@ -1,9 +1,11 @@
 package top.dprkshow.dprkshowspring.service.impl;
 
+import cn.hutool.crypto.SecureUtil;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.dprkshow.dprkshowspring.dao.DprkshowMapper;
+import top.dprkshow.dprkshowspring.entity.Exhibitor;
 import top.dprkshow.dprkshowspring.entity.ExhibitorPwd;
 import top.dprkshow.dprkshowspring.entity.LoginInfo;
 import top.dprkshow.dprkshowspring.service.ExhibitorService;
@@ -43,5 +45,11 @@ public class ExhibitorServiceImpl implements ExhibitorService {
         }
         result.put("data", "Update failed!");
         return result;
+    }
+
+    @Override
+    public void register(Exhibitor exhibitor) {
+        exhibitor.setPassword(SecureUtil.md5(exhibitor.getPassword()));
+        dprkshowMapper.addExhibitor(exhibitor);
     }
 }
