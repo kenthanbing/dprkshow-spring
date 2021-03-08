@@ -9,6 +9,7 @@ import top.dprkshow.dprkshowspring.entity.Exhibitor;
 import top.dprkshow.dprkshowspring.entity.ExhibitorPwd;
 import top.dprkshow.dprkshowspring.entity.LoginInfo;
 import top.dprkshow.dprkshowspring.service.ExhibitorService;
+import top.dprkshow.dprkshowspring.utils.JWTUtil;
 
 import java.util.UUID;
 
@@ -23,7 +24,10 @@ public class ExhibitorServiceImpl implements ExhibitorService {
         JSONObject result = new JSONObject();
         JSONObject profile = dprkshowMapper.getProfile(loginInfo);
         if (profile != null && SecureUtil.md5(loginInfo.getPassword()).equals(profile.get("password"))) {
-            String token = UUID.randomUUID().toString();
+
+            // 生成Token
+            String token = JWTUtil.genToken(loginInfo);
+
             result.put("data", "Login success!");
             result.put("eid", profile.get("eid"));
             result.put("username", profile.get("username"));
