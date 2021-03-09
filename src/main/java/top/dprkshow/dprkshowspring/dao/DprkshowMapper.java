@@ -49,4 +49,7 @@ public interface DprkshowMapper {
 
     @Select("select password from exhibitors where eid=#{eid}")
     String getPasswordByEid(Integer eid);
+
+    @Select("select eid, username, password, company, email from exhibitors where username=#{username}")
+    ExProfile getByUsername(String username);
 }

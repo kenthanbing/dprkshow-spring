@@ -5,13 +5,12 @@ import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.dprkshow.dprkshowspring.dao.DprkshowMapper;
+import top.dprkshow.dprkshowspring.entity.ExProfile;
 import top.dprkshow.dprkshowspring.entity.Exhibitor;
 import top.dprkshow.dprkshowspring.entity.ExhibitorPwd;
 import top.dprkshow.dprkshowspring.entity.LoginInfo;
 import top.dprkshow.dprkshowspring.service.ExhibitorService;
-import top.dprkshow.dprkshowspring.utils.JWTUtil;
-
-import java.util.UUID;
+import top.dprkshow.dprkshowspring.utils.JwtUtils;
 
 @Service
 public class ExhibitorServiceImpl implements ExhibitorService {
@@ -26,7 +25,7 @@ public class ExhibitorServiceImpl implements ExhibitorService {
         if (profile != null && SecureUtil.md5(loginInfo.getPassword()).equals(profile.get("password"))) {
 
             // 生成Token
-            String token = JWTUtil.genToken(loginInfo);
+            String token = JwtUtils.genToken(loginInfo);
 
             result.put("data", "Login success!");
             result.put("eid", profile.get("eid"));
@@ -57,5 +56,10 @@ public class ExhibitorServiceImpl implements ExhibitorService {
     public void register(Exhibitor exhibitor) {
         exhibitor.setPassword(SecureUtil.md5(exhibitor.getPassword()));
         dprkshowMapper.addExhibitor(exhibitor);
+    }
+
+    @Override
+    public ExProfile getByUsername(String username) {
+        return dprkshowMapper.getByUsername(username);
     }
 }

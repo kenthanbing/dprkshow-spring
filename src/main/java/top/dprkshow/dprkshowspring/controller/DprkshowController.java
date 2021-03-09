@@ -1,6 +1,8 @@
 package top.dprkshow.dprkshowspring.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -82,5 +84,12 @@ public class DprkshowController {
     @PostMapping("/pwd")
     public JSONObject updatePwd(@RequestBody ExhibitorPwd exhibitorPwd) {
         return exhibitorService.updatePwd(exhibitorPwd);
+    }
+
+    @GetMapping("/authif")
+    public String authIf(){
+        Subject subject = SecurityUtils.getSubject();
+        if (subject.isAuthenticated()) return "you are logged in";
+        else return "you are guest";
     }
 }
